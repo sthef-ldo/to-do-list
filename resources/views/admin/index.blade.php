@@ -1,5 +1,6 @@
 <x-layouts::admin>
 
+<p>aa</p>
     {{-- Breadcrumbs con margen inferior --}}
     <div class="mb-8">
         <flux:breadcrumbs>
