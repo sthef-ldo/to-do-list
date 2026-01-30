@@ -18,7 +18,7 @@ return new class extends Migration
             $table->enum('prioridad', ['sin_prioridad', 'baja', 'media', 'alta'])->default('sin_prioridad');
             $table->dateTime('fecha_vencimiento')->nullable(); 
             $table->boolean('estado')->default(false); //terminada = 1 No terminada = 0
-            $table->foreignId('user_id')->constrained();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }

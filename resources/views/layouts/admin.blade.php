@@ -13,7 +13,10 @@
 
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
-
+    
+    <!-- Include stylesheet quill.js -->
+    @stack('css')
+   
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @fluxAppearance
 
@@ -32,6 +35,10 @@
                 <flux:sidebar.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')"
                     wire:navigate>
                     {{ __('Dashboard') }}
+                </flux:sidebar.item>
+                <flux:sidebar.item icon="numbered-list" :href="route('tareas.index')" :current="request()->routeIs('tareas.index')"
+                    wire:navigate>
+                    {{ __('Tareas') }}
                 </flux:sidebar.item>
             </flux:sidebar.group>
         </flux:sidebar.nav>
@@ -103,6 +110,10 @@
     </flux:main>
 
     @fluxScripts
+
+    @stack('js')
+
+
 </body>
 
 </html>

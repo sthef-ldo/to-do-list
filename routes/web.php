@@ -13,6 +13,6 @@ Route::view('dashboard', 'dashboard')
 
 Route::resource('tareas', TareasController::class);
 
-
+Route::post('tareas/{tarea}/toggle', [TareasController::class, 'toggleEstado'])->name('tareas.toggle');
 
 require __DIR__.'/settings.php';
