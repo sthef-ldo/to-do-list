@@ -27,4 +27,8 @@ class Tarea extends Model
     public function user(){
         return $this->belongsTo(User::class);
     }
+    //Relacion uno a muchos inversa (grupo -> tareas)
+    public function grupo(){
+        return $this->belongsTo(Grupo::class);
+    }
 }

@@ -66,4 +66,8 @@ class User extends Authenticatable
     public function tareas(){
         return $this->hasMany(Tarea::class);
     }
+    //Relacion uno a muchos (user -> grupos)
+    public function grupos(){
+        return $this->hasMany(Grupo::class);
+    }
 }

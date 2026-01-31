@@ -19,6 +19,7 @@ return new class extends Migration
             $table->dateTime('fecha_vencimiento')->nullable(); 
             $table->boolean('estado')->default(false); //terminada = 1 No terminada = 0
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('grupo_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }
