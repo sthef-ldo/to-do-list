@@ -13,13 +13,9 @@ Route::view('dashboard', 'dashboard')
     ->name('dashboard');
 
     /* prueba */
-Route::get('/tareas/{grupo}', [TareasController::class, 'index'])
-    ->name('tareas.index');
-Route::get('/tareas/create/{grupo}', [TareasController::class, 'create'])
-    ->name('tareas.create');
+Route::get('/tareas/{grupo}', [TareasController::class, 'index'])->name('tareas.index');
+Route::get('/tareas/create/{grupo}', [TareasController::class, 'create'])->name('tareas.create');
 Route::get('/tareas/detalles/{tarea}', [TareasController::class, 'show'])->name('tareas.show');
-
-
 
 
 //Rutas para la gestión de tareas
@@ -32,3 +28,5 @@ Route::resource('grupos', GruposController::class);
 
 
 require __DIR__.'/settings.php';
+
+

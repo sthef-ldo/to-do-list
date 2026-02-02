@@ -63,6 +63,12 @@
                                     Eliminar
                                 </flux:button>
                             </form>
+                            
+                            {{-- prueba: mostrar el total de tareas y tareas terminadas => tt/tf --}}
+
+                            <p class="text-gray-400 text-sm">Tareas: {{ $grupo->tareas->count() }} / {{ $grupo->tareas->where('estado', '1')->count() }} </p>
+
+
                         </div>
                     </flux:card>
                 @empty
