@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TareasController;
 use App\Http\Controllers\GruposController;
+use App\Http\Controllers\PomodoroController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -25,6 +26,10 @@ Route::post('tareas/{tarea}/toggle', [TareasController::class, 'toggleEstado'])-
 
 //Ruta para la gestion de grupos
 Route::resource('grupos', GruposController::class);
+
+
+//prueba pomodoro 
+Route::resource('pomodoro', PomodoroController::class);
 
 
 require __DIR__.'/settings.php';
