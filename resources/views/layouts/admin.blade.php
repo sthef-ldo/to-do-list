@@ -36,9 +36,9 @@
                     wire:navigate>
                     {{ __('Dashboard') }}
                 </flux:sidebar.item>
-                <flux:sidebar.item icon="numbered-list" :href="route('tareas.index')" :current="request()->routeIs('tareas.index')"
+                <flux:sidebar.item icon="numbered-list" :href="route('grupos.index')" :current="request()->routeIs('tareas.index')"
                     wire:navigate>
-                    {{ __('Tareas') }}
+                    {{ __('Grupos') }}
                 </flux:sidebar.item>
             </flux:sidebar.group>
         </flux:sidebar.nav>

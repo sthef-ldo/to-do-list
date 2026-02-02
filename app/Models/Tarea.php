@@ -15,6 +15,7 @@ class Tarea extends Model
         'fecha_vencimiento',
         'estado',
         'user_id',
+        'grupo_id',
     ];
 
     protected $guarded = [

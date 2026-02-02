@@ -12,8 +12,18 @@ Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
 
+    /* prueba */
+Route::get('/tareas/{grupo}', [TareasController::class, 'index'])
+    ->name('tareas.index');
+Route::get('/tareas/create/{grupo}', [TareasController::class, 'create'])
+    ->name('tareas.create');
+Route::get('/tareas/detalles/{tarea}', [TareasController::class, 'show'])->name('tareas.show');
+
+
+
+
 //Rutas para la gestión de tareas
-Route::resource('tareas', TareasController::class);
+Route::resource('tareas', TareasController::class)->except('index', 'create','show');
 //Tarea: Permitir cambiar el estado de una tarea (completada/no completada)
 Route::post('tareas/{tarea}/toggle', [TareasController::class, 'toggleEstado'])->name('tareas.toggle');
 

@@ -10,7 +10,7 @@
     <div class="mb-8">
         <flux:breadcrumbs>
             <flux:breadcrumbs.item href="dashboard">Dashboard</flux:breadcrumbs.item>
-            <flux:breadcrumbs.item href="{{ route('tareas.index') }}">Tareas</flux:breadcrumbs.item>
+            <flux:breadcrumbs.item href="{{  route('tareas.index', ['grupo' => $grupo_id]) }}">Tareas</flux:breadcrumbs.item>
             <flux:breadcrumbs.item href="#">Editar</flux:breadcrumbs.item>
         </flux:breadcrumbs>
     </div>
@@ -22,6 +22,9 @@
         <div>
 
             <flux:card class="space-y-8">
+                {{-- prueba --}}
+                <input type="hidden" name="grupo_id" value="{{ $grupo_id }}">
+
                 <flux:input label="Tarea" type="text" name="tarea" value="{{ old('tarea', $tarea->tarea) }}" />
 
                 <div>

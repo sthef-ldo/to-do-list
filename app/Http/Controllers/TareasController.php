@@ -7,21 +7,38 @@ use App\Models\Tarea;
 
 class TareasController extends Controller
 {
-    public function index()
+    /*  public function index()
     {
         $tareas = Tarea::all();
         return view('admin.index', compact('tareas'));
     }
+ */
+    /* prueba */
+    public function index($grupo)
+    {
+        // tareas solo de ese grupo
+        $tareas = Tarea::where('grupo_id', $grupo)->get();
 
+        return view('admin.index', [
+            'tareas' => $tareas,
+            'grupo_id' => $grupo, // para usarlo en la vista
+        ]);
+    }
     public function show($tarea)
     {
         $tarea = Tarea::findOrFail($tarea);
-        return view('admin.show', compact('tarea'));
+        return view('admin.show', [
+            'tarea'     => $tarea,
+            'grupo_id'  => $tarea->grupo_id,
+        ]);
     }
 
-    public function create()
+    public function create($grupo)
     {
-        return view('admin.create');
+        /* prueba */
+        return view('admin.create', ['grupo_id' => $grupo]);
+
+        /* return view('admin.create'); */
     }
 
     public function store(Request $request)
@@ -32,6 +49,7 @@ class TareasController extends Controller
             'prioridad' => 'nullable|in:sin_prioridad,baja,media,alta',
             'fecha_vencimiento' => 'nullable|date',
             'estado' => 'nullable|boolean',
+            'grupo_id' => 'required|exists:grupos,id',
         ]);
 
         $data['prioridad'] = $data['prioridad'] ?? 'sin_prioridad';
@@ -39,14 +57,18 @@ class TareasController extends Controller
         $data['user_id'] = auth('web')->id();
 
         Tarea::create($data);
-
-        return redirect()->route('tareas.index')->with('success', 'Tarea creada exitosamente.');
+        /*return redirect()->route('tareas.index')->with('success', 'Tarea creada exitosamente.');*/
+        /*   prueba  */
+        return redirect()->route('tareas.index', ['grupo' => $data['grupo_id']])->with('success', 'Tarea creada exitosamente.');
     }
 
     public function edit($tarea)
     {
         $tarea = Tarea::findOrFail($tarea);
-        return view('admin.edit', compact('tarea'));
+        return view('admin.edit', [
+            'tarea' => $tarea,
+            'grupo_id' => $tarea->grupo_id, // viene de la BD
+        ]);
     }
 
     public function update(Request $request, $tarea)
@@ -57,6 +79,7 @@ class TareasController extends Controller
             'prioridad' => 'nullable|in:sin_prioridad,baja,media,alta',
             'fecha_vencimiento' => 'nullable|date',
             'estado' => 'nullable|boolean',
+            'grupo_id' => 'required|exists:grupos,id',
         ]);
 
         $data['prioridad'] = $data['prioridad'] ?? 'sin_prioridad';
@@ -65,7 +88,7 @@ class TareasController extends Controller
 
         $tarea = Tarea::findOrFail($tarea);
         $tarea->update($data);
-        return redirect()->route('tareas.index')->with('success', 'Tarea actualizada exitosamente.');
+        return redirect()->route('tareas.index', ['grupo' => $data['grupo_id']])->with('success', 'Tarea actualizada exitosamente.');
     }
 
     public function destroy($tarea)
@@ -83,7 +106,7 @@ class TareasController extends Controller
         $tarea->estado = !$tarea->estado;
         $tarea->save();
 
-        
+
         return redirect()->back()->with('success', 'Estado actualizado.');
     }
 }

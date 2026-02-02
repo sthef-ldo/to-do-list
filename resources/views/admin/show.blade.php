@@ -4,7 +4,7 @@
     <div class="mb-6">
         <flux:breadcrumbs>
             <flux:breadcrumbs.item href="dashboard">Dashboard</flux:breadcrumbs.item>
-            <flux:breadcrumbs.item href="{{ route('tareas.index') }}">Tareas</flux:breadcrumbs.item>
+            <flux:breadcrumbs.item href="{{  route('tareas.index', ['grupo' => $grupo_id]) }} }}">Tareas</flux:breadcrumbs.item>
             <flux:breadcrumbs.item href="#">Detalles</flux:breadcrumbs.item>
         </flux:breadcrumbs>
     </div>
@@ -83,7 +83,7 @@
             <div class="flex justify-end gap-3 border-t border-zinc-200 dark:border-zinc-800 pt-4">
                 <flux:button
                     color="secondary"
-                    href="{{ route('tareas.index') }}"
+                    href="{{ route('tareas.index', ['grupo' => $grupo_id]) }} }}"
                     size="sm"
                 >
                     Volver

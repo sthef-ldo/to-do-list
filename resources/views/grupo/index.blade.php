@@ -38,12 +38,16 @@
             <!-- Lista de grupos -->
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                 @forelse ($grupos as $grupo)
-                    <flux:card
+                    <flux:card 
                         class="space-y-6 p-6 min-h-64 bg-gray-800 border border-gray-700 rounded-md shadow-md hover:shadow-lg transition-all">
+                        
                         <!-- Nombre del grupo -->
                         <div class="flex-1">
                             <h3 class="font-semibold text-xl text-white mb-2 truncate">{{ $grupo->nombre }}</h3>
                             <p class="text-gray-400 text-sm">ID: {{ $grupo->id }}</p>
+                                   {{-- prueba --}}
+                                   
+                            <flux:button href="{{ route('tareas.index', ['grupo' => $grupo->id]) }}">Tareas</flux:button>
                         </div>
 
                         <!-- Botones de acción -->

@@ -14,7 +14,7 @@
         {{-- Header de la sección con mejor distribución --}}
         <div class="flex items-center justify-between gap-4 pb-6 border-b border-gray-200">
             <flux:heading size="md">Tareas</flux:heading>
-            <flux:button href="{{ route('tareas.create') }}">Nueva Tarea</flux:button>
+            <flux:button href="{{ route('tareas.create', ['grupo' => $grupo_id]) }}">Nueva Tarea</flux:button>
 
         </div>
 
