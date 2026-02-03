@@ -13,10 +13,10 @@
 
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
-    
+
     <!-- Include stylesheet quill.js -->
     @stack('css')
-   
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @fluxAppearance
 
@@ -26,19 +26,19 @@
     <flux:sidebar sticky collapsible="mobile"
         class="border-e border-zinc-200 bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900">
         <flux:sidebar.header>
-            <x-app-logo :sidebar="true" href="{{ route('dashboard') }}" wire:navigate />
+            <x-app-logo :sidebar="true" href="{{ route('grupos.index') }}" wire:navigate />
             <flux:sidebar.collapse class="lg:hidden" />
         </flux:sidebar.header>
 
         <flux:sidebar.nav>
             <flux:sidebar.group :heading="__('Platform')" class="grid">
-                <flux:sidebar.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')"
-                    wire:navigate>
-                    {{ __('Dashboard') }}
-                </flux:sidebar.item>
-                <flux:sidebar.item icon="numbered-list" :href="route('grupos.index')" :current="request()->routeIs('tareas.index')"
-                    wire:navigate>
+                <flux:sidebar.item icon="numbered-list" :href="route('grupos.index')"
+                    :current="request()->routeIs('tareas.index')" wire:navigate>
                     {{ __('Grupos') }}
+                </flux:sidebar.item>
+                <flux:sidebar.item icon="numbered-list" :href="route('pomodoro.index')"
+                    :current="request()->routeIs('pomodoro.index')" wire:navigate>
+                    {{ __('Pomodoro') }}
                 </flux:sidebar.item>
             </flux:sidebar.group>
         </flux:sidebar.nav>

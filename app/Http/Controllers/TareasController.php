@@ -4,26 +4,24 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Tarea;
+use App\Models\Grupo;
 
 class TareasController extends Controller
 {
-    /*  public function index()
-    {
-        $tareas = Tarea::all();
-        return view('admin.index', compact('tareas'));
-    }
- */
-    /* prueba */
     public function index($grupo)
     {
+        // Buscar el grupo
+        $grupoModel = Grupo::findOrFail($grupo);
         // tareas solo de ese grupo
         $tareas = Tarea::where('grupo_id', $grupo)->get();
 
         return view('admin.index', [
-            'tareas' => $tareas,
-            'grupo_id' => $grupo, // para usarlo en la vista
+            'tareas'        => $tareas,
+            'grupo_id'      => $grupo,
+            'grupo_nombre'  => $grupoModel->nombre,
         ]);
     }
+    
     public function show($tarea)
     {
         $tarea = Tarea::findOrFail($tarea);

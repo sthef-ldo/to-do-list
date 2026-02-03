@@ -3,7 +3,7 @@
     {{-- Breadcrumbs con margen inferior --}}
     <div class="mb-8">
         <flux:breadcrumbs>
-            <flux:breadcrumbs.item href="dashboard">Dashboard</flux:breadcrumbs.item>
+            <flux:breadcrumbs.item href="{{ route('grupos.index') }}">Dashboard</flux:breadcrumbs.item>
             <flux:breadcrumbs.item href="#">Tareas</flux:breadcrumbs.item>
         </flux:breadcrumbs>
     </div>
@@ -13,63 +13,78 @@
 
         {{-- Header de la sección con mejor distribución --}}
         <div class="flex items-center justify-between gap-4 pb-6 border-b border-gray-200">
-            <flux:heading size="md">Tareas</flux:heading>
+            <flux:heading size="md">{{ $grupo_nombre }}</flux:heading>
             <flux:button href="{{ route('tareas.create', ['grupo' => $grupo_id]) }}">Nueva Tarea</flux:button>
 
         </div>
 
         {{-- Tabla con espaciado consistente --}}
         <div class="overflow-x-auto">
-            <flux:table>
-                <flux:table.columns>
-                    <flux:table.column>Num</flux:table.column>
-                    <flux:table.column>Tarea</flux:table.column>
-                    <flux:table.column>Prioridad</flux:table.column>
-                    <flux:table.column>Estado</flux:table.column>
-                    <flux:table.column>F. Límite</flux:table.column>
-                    <flux:table.column>Acciones</flux:table.column>
-                </flux:table.columns>
+            @if ($tareas->isEmpty())
 
-                <flux:table.rows>
+                <div class="text-center py-12">
+                    <flux:heading size="lg" class="text-gray-400 mb-4">Sin datos</flux:heading>
+                    <p class="text-sm text-gray-500 mb-6">No hay tareas en este grupo. Crea tu primera tarea.</p>
+                </div>
+            @else
+                <flux:table>
+                    <flux:table.columns>
+                        <flux:table.column>Num</flux:table.column>
+                        <flux:table.column>Tarea</flux:table.column>
+                        <flux:table.column>Prioridad</flux:table.column>
+                        <flux:table.column>Estado</flux:table.column>
+                        <flux:table.column>F. Límite</flux:table.column>
+                        <flux:table.column>Acciones</flux:table.column>
+                    </flux:table.columns>
 
-                    @foreach ($tareas as $tarea)
-                        <flux:table.row>
+                    <flux:table.rows>
 
-                            <flux:table.cell>{{ $tarea->id }}</flux:table.cell>
-                            <flux:table.cell>{{ $tarea->tarea }}</flux:table.cell>
-                            <flux:table.cell>{{ $tarea->prioridad }}</flux:table.cell>
+                        @foreach ($tareas as $tarea)
+                            <flux:table.row>
 
-                            <flux:table.cell>
-                                <form action="{{ route('tareas.toggle', $tarea->id) }}" method="POST">
-                                    @csrf
-                                    <flux:button name="estado" size="sm"
-                                        color="{{ $tarea->estado ? 'success' : 'gray' }}" type="submit">
-                                        {{ $tarea->estado ? 'Terminado' : 'Sin terminar' }}
-                                    </flux:button>
-                                </form>
-                            </flux:table.cell>
+                                <flux:table.cell>{{ $tarea->id }}</flux:table.cell>
+                                <flux:table.cell>{{ $tarea->tarea }}</flux:table.cell>
+                                <flux:table.cell>{{ $tarea->prioridad }}</flux:table.cell>
 
-                            <flux:table.cell>{{ $tarea->fecha_vencimiento }}</flux:table.cell>
-                            <flux:table.cell>
-                                <flux:button.group class="gap-1">
-                                    <flux:button icon="pencil-square" href="{{ route('tareas.edit', $tarea->id) }}">
-                                    </flux:button>
-                                    <flux:button icon="eye" href="{{ route('tareas.show', $tarea->id) }}">
-                                    </flux:button>
-                                    <form action="{{ route('tareas.destroy', $tarea->id) }}" method="POST">
+                                <flux:table.cell>
+                                    <form action="{{ route('tareas.toggle', $tarea->id) }}" method="POST">
                                         @csrf
-                                        @method('DELETE')
-                                        <flux:button icon="trash" type="submit" color="destructive"></flux:button>
+                                        <flux:button name="estado" size="sm"
+                                            color="{{ $tarea->estado ? 'success' : 'gray' }}" type="submit">
+                                            {{ $tarea->estado ? 'Terminado' : 'Sin terminar' }}
+                                        </flux:button>
                                     </form>
+                                </flux:table.cell>
+
+                                @if ($tarea->fecha_vencimiento == null)
+                                    <flux:table.cell>N/A</flux:table.cell>
+                                @else
+                                    <flux:table.cell>{{ $tarea->fecha_vencimiento }}</flux:table.cell>
+                                @endif
 
 
-                                </flux:button.group>
-                            </flux:table.cell>
-                        </flux:table.row>
-                    @endforeach
+                                <flux:table.cell>
+                                    <flux:button.group class="gap-1">
+                                        <flux:button icon="pencil-square" href="{{ route('tareas.edit', $tarea->id) }}">
+                                        </flux:button>
+                                        <flux:button icon="eye" href="{{ route('tareas.show', $tarea->id) }}">
+                                        </flux:button>
+                                        <form action="{{ route('tareas.destroy', $tarea->id) }}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <flux:button icon="trash" type="submit" color="destructive">
+                                            </flux:button>
+                                        </form>
 
-                </flux:table.rows>
-            </flux:table>
+
+                                    </flux:button.group>
+                                </flux:table.cell>
+                            </flux:table.row>
+                        @endforeach
+
+                    </flux:table.rows>
+                </flux:table>
+            @endif
         </div>
     </flux:card>
 

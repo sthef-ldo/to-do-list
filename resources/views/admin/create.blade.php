@@ -9,7 +9,7 @@
     {{-- Breadcrumbs con margen inferior --}}
     <div class="mb-8">
         <flux:breadcrumbs>
-            <flux:breadcrumbs.item href="dashboard">Dashboard</flux:breadcrumbs.item>
+            <flux:breadcrumbs.item href="{{ route('grupos.index') }}">Dashboard</flux:breadcrumbs.item>
             {{-- prueba --}}
             <flux:breadcrumbs.item href="{{ route('tareas.create', ['grupo' => $grupo_id]) }}">Tareas</flux:breadcrumbs.item>
             <flux:breadcrumbs.item href="#">Crear</flux:breadcrumbs.item>
@@ -23,7 +23,7 @@
 
             <flux:card class="space-y-8">
                {{--  prueba --}}
-                <input type="" name="grupo_id" value="{{ $grupo_id }}">
+                <input type="hidden" name="grupo_id" value="{{ $grupo_id }}">
 
                 <flux:input label="Tarea" type="text" name="tarea" />
 

@@ -38,39 +38,83 @@
             <!-- Lista de grupos -->
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                 @forelse ($grupos as $grupo)
-                    <flux:card 
-                        class="space-y-6 p-6 min-h-64 bg-gray-800 border border-gray-700 rounded-md shadow-md hover:shadow-lg transition-all">
-                        
-                        <!-- Nombre del grupo -->
-                        <div class="flex-1">
-                            <h3 class="font-semibold text-xl text-white mb-2 truncate">{{ $grupo->nombre }}</h3>
-                            <p class="text-gray-400 text-sm">ID: {{ $grupo->id }}</p>
-                                   {{-- prueba --}}
-                                   
-                            <flux:button href="{{ route('tareas.index', ['grupo' => $grupo->id]) }}">Tareas</flux:button>
-                        </div>
+                    {{-- Tarjeta completa clicable --}}
+                    <a href="{{ route('tareas.index', ['grupo' => $grupo->id]) }}" class="block group">
+                        <flux:card
+                            class="space-y-4 p-6 min-h-50 bg-gray-800 border border-gray-700 rounded-md shadow-md hover:shadow-lg hover:border-indigo-500 transition-all cursor-pointer flex flex-col justify-between">
 
-                        <!-- Botones de acción -->
-                        <div class="flex gap-2 pt-4 border-t border-gray-700">
-                            <flux:modal.trigger :name="'edit-grupo-'.$grupo->id">
-                                <flux:button size="sm" icon="pencil">Editar</flux:button>
-                            </flux:modal.trigger>
+                            <!-- Parte superior: nombre e info -->
+                            <div class="flex-1">
+                                <div class="flex items-start justify-between gap-2">
+                                    <div>
+                                        <h3 class="font-semibold text-xl text-white mb-1 truncate group-hover:text-indigo-400">
+                                            {{ $grupo->nombre }}
+                                        </h3>
+                                        <p class="text-gray-500 text-xs">ID: {{ $grupo->id }}</p>
+                                    </div>
 
-                            <form action="{{ route('grupos.destroy', $grupo->id) }}" method="POST" class="inline">
-                                @csrf
-                                @method('DELETE')
-                                <flux:button type="submit" size="sm" variant="danger" icon="trash">
-                                    Eliminar
-                                </flux:button>
-                            </form>
-                            
-                            {{-- prueba: mostrar el total de tareas y tareas terminadas => tt/tf --}}
+                                    {{-- Dropdown de acciones --}}
+                                    <div class="relative"
+                                         onclick="event.stopPropagation(); event.preventDefault();">
+                                        <div x-data="{ open: false }" class="relative">
+                                            <button
+                                                x-on:click="open = !open"
+                                                class="inline-flex items-center justify-center w-9 h-9 rounded-md bg-gray-700 hover:bg-gray-600 text-gray-200 focus:outline-none shadow">
+                                                <!-- ícono de tres puntos -->
+                                                <svg xmlns="http://www.w3.org/2000/svg"
+                                                     fill="none"
+                                                     viewBox="0 0 24 24"
+                                                     stroke-width="1.5"
+                                                     stroke="currentColor"
+                                                     class="w-5 h-5">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                          d="M6.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm6 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm6 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
+                                                </svg>
+                                            </button>
 
-                            <p class="text-gray-400 text-sm">Tareas: {{ $grupo->tareas->count() }} / {{ $grupo->tareas->where('estado', '1')->count() }} </p>
+                                            <div
+                                                x-show="open"
+                                                x-on:click.outside="open = false"
+                                                x-cloak
+                                                class="absolute right-0 mt-2 w-40 bg-gray-900 border border-gray-700 rounded-md shadow-lg py-1 z-20">
 
+                                                {{-- Editar --}}
+                                                <flux:modal.trigger :name="'edit-grupo-'.$grupo->id">
+                                                    <button
+                                                        type="button"
+                                                        class="w-full text-left px-3 py-2 text-sm text-gray-200 hover:bg-gray-800 flex items-center gap-2">
+                                                        <x-icon name="pencil" class="w-4 h-4" />
+                                                        <span>Editar</span>
+                                                    </button>
+                                                </flux:modal.trigger>
 
-                        </div>
-                    </flux:card>
+                                                {{-- Eliminar --}}
+                                                <form action="{{ route('grupos.destroy', $grupo->id) }}"
+                                                      method="POST"
+                                                      class="w-full"
+                                                      onclick="event.stopPropagation();">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button
+                                                        type="submit"
+                                                        class="w-full text-left px-3 py-2 text-sm text-red-400 hover:bg-gray-800 flex items-center gap-2">
+                                                        <x-icon name="trash" class="w-4 h-4" />
+                                                        <span>Eliminar</span>
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {{-- Info de tareas --}}
+                                <p class="mt-19 text-gray-400 text-sm">
+                                    Tareas: {{ $grupo->tareas->count() }} / {{ $grupo->tareas->where('estado', '1')->count() }}
+                                </p>
+                            </div>
+
+                        </flux:card>
+                    </a>
                 @empty
                     <p class="col-span-full text-gray-400 text-center py-12">No tienes grupos creados aún.</p>
                 @endforelse
@@ -111,7 +155,7 @@
                 @csrf
                 <flux:input label="Nombre del grupo" name="nombre" placeholder="Ej: Trabajo, Personal, Proyectos..."
                     class="w-full" />
-                <div class="flex gap-3">
+                <div class="flex gap-3 mt-3">
                     <flux:button type="submit" variant="primary">Crear grupo</flux:button>
                     <flux:button type="button" x-on:click="$store.modals.close('crear-grupo')">Cancelar</flux:button>
                 </div>
@@ -119,5 +163,4 @@
         </div>
     </flux:modal>
 
-    
 </x-layouts::admin>

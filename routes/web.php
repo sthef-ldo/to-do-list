@@ -9,29 +9,29 @@ Route::get('/', function () {
     return view('welcome');
 })->name('home');
 
-Route::view('dashboard', 'dashboard')
+/* Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
-    ->name('dashboard');
+    ->name('dashboard'); */
 
-    /* prueba */
-Route::get('/tareas/{grupo}', [TareasController::class, 'index'])->name('tareas.index');
-Route::get('/tareas/create/{grupo}', [TareasController::class, 'create'])->name('tareas.create');
-Route::get('/tareas/detalles/{tarea}', [TareasController::class, 'show'])->name('tareas.show');
+// Rutas autenticadas
+Route::middleware('auth')->group(function () {
 
+    // Ruta para la gestión de grupos
+    Route::resource('grupos', GruposController::class);
 
-//Rutas para la gestión de tareas
-Route::resource('tareas', TareasController::class)->except('index', 'create','show');
-//Tarea: Permitir cambiar el estado de una tarea (completada/no completada)
-Route::post('tareas/{tarea}/toggle', [TareasController::class, 'toggleEstado'])->name('tareas.toggle');
+    // Rutas para la gestión de tareas (solo vistas)
+    Route::get('/tareas/{grupo}', [TareasController::class, 'index'])->name('tareas.index');
+    Route::get('/tareas/create/{grupo}', [TareasController::class, 'create'])->name('tareas.create');
+    Route::get('/tareas/detalles/{tarea}', [TareasController::class, 'show'])->name('tareas.show');
 
-//Ruta para la gestion de grupos
-Route::resource('grupos', GruposController::class);
+    // Rutas REST de tareas (sin index, create, show)
+    Route::resource('tareas', TareasController::class)->except('index', 'create', 'show');
 
+    // Cambiar estado de tarea
+    Route::post('tareas/{tarea}/toggle', [TareasController::class, 'toggleEstado'])->name('tareas.toggle');
 
-//prueba pomodoro 
-Route::resource('pomodoro', PomodoroController::class);
+    // Pomodoro
+    Route::resource('pomodoro', PomodoroController::class);
+});
 
-
-require __DIR__.'/settings.php';
-
-
+require __DIR__ . '/settings.php';

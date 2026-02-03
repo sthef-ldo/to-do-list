@@ -1,4 +1,6 @@
 <x-layouts::admin>
+    <flux:text class="text-base" color="red">Esta area queda en desarrollo hasta nuevo aviso </flux:text>
+    
     {{-- Skeleton loader --}}
     <flux:skeleton.group animate="shimmer" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         <flux:card class="space-y-6 p-6 min-h-64 bg-gray-800 border border-gray-700 rounded-md shadow-md hover:shadow-lg transition-all">
@@ -19,7 +21,7 @@
             </flux:select>
 
             {{-- Tabla de Tareas --}}
-            <flux:table>
+          <flux:table>
                 <flux:table.columns>
                     <flux:table.column>Nombre</flux:table.column>
                     <flux:table.column>Estado</flux:table.column>
@@ -27,7 +29,7 @@
                 </flux:table.columns>
 
                 <flux:table.rows>
-                    @forelse ($tareas as $tarea)
+                     {{--  @forelse ($tareas as $tarea)
                         <flux:table.row>
                             <flux:table.cell>{{ $tarea->nombre }}</flux:table.cell>
                             <flux:table.cell>
@@ -48,9 +50,9 @@
                                 No hay tareas aún
                             </flux:table.cell>
                         </flux:table.row>
-                    @endforelse
+                    @endforelse--}}
                 </flux:table.rows>
-            </flux:table>
+            </flux:table> 
         </div>
     </flux:modal>
 </x-layouts::admin>
